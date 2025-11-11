@@ -20,7 +20,13 @@ const app = express()
 
 // ---------- MIDDLEWARE ----------
 app.use(express.json({ limit: '10mb' }))
-app.use(express.static(path.join(__dirname, 'public')))
+// serve everything from the folder where index.js is
+app.use(express.static(__dirname))
+
+// serve index.html from the same folder
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'))
+})
 
 // sessions for auth
 app.use(
@@ -89,7 +95,7 @@ passport.use(
     {
       clientID: process.env.MICROSOFT_CLIENT_ID || '',
       clientSecret: process.env.MICROSOFT_CLIENT_SECRET || '',
-      callbackURL: process.env.MICROSOFT_CALLBACK_URL || 'http://localhost:3000/auth/microsoft/callback',
+callbackURL: process.env.MICROSOFT_CALLBACK_URL || '/auth/microsoft/callback',
       scope: ['user.read'],
       tenant: 'common' // allows personal + work/school
     },
@@ -233,7 +239,7 @@ app.post('/chat', async (req, res) => {
     const hasBadWord = badWords.some(w => lower.includes(w))
     const mentionsCreator =
       lower.includes('rafi') || lower.includes('amaan') || lower.includes('amaan rafi')
-    const mentionsAviya = lower.includes('Aviya')
+    const mentionsAviya = lower.includes('viya')
 
     const disrespectRafi = mentionsCreator && hasBadWord
     const disrespectAviya = mentionsAviya && hasBadWord
@@ -388,7 +394,7 @@ app.post('/logout', (req, res) => {
   }
 
   const port = process.env.PORT || 3000
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`✅ Aviya is running on port ${port}`)
 })
 })()
