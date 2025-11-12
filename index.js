@@ -198,6 +198,7 @@ GOAL:
 app.post('/chat', async (req, res) => {
   try {
     const { message, sessionId } = req.body
+    console.log('🔵 /chat called with:', message)
     const id = sessionId || 'default'
 
     if (!sessions[id]) {
@@ -315,6 +316,7 @@ const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
 })
 
 const groqData = await groqRes.json()
+console.log('🟣 Groq response:', JSON.stringify(groqData, null, 2))
 // Groq returns OpenAI-style JSON
 let reply =
   groqData?.choices?.[0]?.message?.content?.trim() ||
