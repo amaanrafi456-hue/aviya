@@ -296,20 +296,29 @@ User: ${message}
 Aviya (2–3 sentences, no asterisks, human tone):
 `.trim()
 
-    // call local ollama
-    const ollamaRes = await fetch('http://localhost:11434/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'llama3',
-        prompt: fullPrompt,
-        stream: false,
-        options: { num_predict: 120 }
-      })
-    })
+// ---- call Groq instead of local Ollama ----
+const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+  },
+  body: JSON.stringify({
+    model: 'llama-3.1-70b-versatile',   // good general model
+    messages: [
+      { role: 'system', content: 'You are Aviya. Reply in 2–3 warm sentences.' },
+      { role: 'user', content: fullPrompt }
+    ],
+    max_tokens: 180,
+    temperature: 0.7
+  })
+})
 
-    const data = await ollamaRes.json()
-    let reply = data.response || 'I couldn’t think for a second, can you say it again?'
+const groqData = await groqRes.json()
+// Groq returns OpenAI-style JSON
+let reply =
+  groqData?.choices?.[0]?.message?.content?.trim() ||
+  'I couldn’t think for a second, can you say it again?'
 
     // emoji logic
     if (!sessionData.greeted) {
