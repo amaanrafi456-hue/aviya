@@ -305,7 +305,7 @@ const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     Authorization: `Bearer ${process.env.GROQ_API_KEY}`
   },
   body: JSON.stringify({
-    model: 'llama3-70b-versatile',   // good general model
+    model: 'llama-3.1-8b-instant',   // good general model
     messages: [
       { role: 'system', content: 'You are Aviya. Reply in 2–3 warm sentences.' },
       { role: 'user', content: fullPrompt }
