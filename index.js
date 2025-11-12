@@ -304,7 +304,7 @@ const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     Authorization: `Bearer ${process.env.GROQ_API_KEY}`
   },
   body: JSON.stringify({
-    model: 'llama-3.1-70b-versatile',   // good general model
+    model: 'llama-3.1-70b-8192',   // good general model
     messages: [
       { role: 'system', content: 'You are Aviya. Reply in 2–3 warm sentences.' },
       { role: 'user', content: fullPrompt }
@@ -318,7 +318,7 @@ const groqData = await groqRes.json()
 // Groq returns OpenAI-style JSON
 let reply =
   groqData?.choices?.[0]?.message?.content?.trim() ||
-  'I couldn’t think for a second, can you say it again?'
+groqData?.error?.message || 'I couldn’t think for a second, can you say it again?'
 
     // emoji logic
     if (!sessionData.greeted) {
