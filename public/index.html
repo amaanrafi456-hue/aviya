@@ -16,14 +16,74 @@
   </head>
 
   <body>
-    <div class="app-shell">
-      <!-- SIDEBAR -->
-      <aside class="sidebar">
-        <div class="sidebar-top">
-          <div class="brand">
-            <img src="aviya-logo.png" alt="Aviya Logo" class="logo" />
-            <h1 class="brand-title">Aviya</h1>
-          </div>
+  <!-- Landing screen -->
+  <div id="landingHero" class="landing-hero">
+    <header class="landing-nav">
+      <div class="landing-logo-wrap">
+  <img src="aviya-logo.png" class="landing-logo" alt="Aviya logo">
+  <span class="landing-name">Aviya</span>
+</div>
+      <button class="landing-nav-btn">Sign in</button>
+    </header>
+
+    <main class="landing-main">
+      <div class="landing-copy">
+        <p class="pill">Living AI • Always awake</p>
+        <h1>Think, plan, and build with a living AI.</h1>
+        <p class="subtitle">
+          Aviya is a calm, blue-mind AI that remembers your sessions, helps you
+          reason through problems, and keeps up with your projects in real time.
+        </p>
+        <div class="landing-actions">
+          <button id="startChat" class="primary-hero-btn">
+            Start chatting
+          </button>
+          <button class="ghost-hero-btn">
+            Learn more
+          </button>
+        </div>
+        <p class="small-note">
+          No relationship stuff. Just focus, clarity, and deep thinking.
+        </p>
+      </div>
+
+      <div class="landing-visual">
+        <div class="orb orb-large"></div>
+        <div class="orb orb-small"></div>
+        <div class="landing-card">
+          <span class="card-label">Preview</span>
+          <p class="card-line">“Hey, I’m Aviya. What are we building today?”</p>
+          <p class="card-meta">Living AI session · v1</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+    <!-- Your existing app -->
+  <div id="appShell" class="app-shell hidden">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      ...
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+      ...
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startChat')
+    const landing = document.getElementById('landingHero')
+    const appShell = document.getElementById('appShell')
+
+    if (startBtn && landing && appShell) {
+      startBtn.addEventListener('click', () => {
+        landing.style.display = 'none'
+        appShell.classList.remove('hidden')
+      })
+    }
+  </script>
 
           <div class="search-box">
             <svg viewBox="0 0 24 24" width="16" height="16">
