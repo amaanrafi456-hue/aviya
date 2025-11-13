@@ -198,8 +198,14 @@ GOAL:
 // ---------- CHAT ROUTE ----------
 app.post('/chat', async (req, res) => {
   try {
-    const { message, sessionId } = req.body
-    console.log('🔵 /chat called with:', message)
+    console.log('➡️ /chat hit. Body:', req.body)
+
+    const { message, sessionId } = req.body || {}
+    if (!message || typeof message !== 'string') {
+      console.log('⚠️ No valid message provided')
+      return res.status(400).json({ error: 'Message is required' })
+    }
+
     const id = sessionId || 'default'
 
     if (!sessions[id]) {
@@ -214,10 +220,11 @@ app.post('/chat', async (req, res) => {
     }
 
     const sessionData = sessions[id]
-    const lower = (message || '').toLowerCase()
+    const lower = message.toLowerCase()
 
     // already banned
     if (sessionData.banned || sessionData.mood === 'off') {
+      console.log('🚫 Session banned / off, not replying.')
       return res.json({
         reply:
           'Aviya is quiet right now because she didn’t feel respected. She won’t talk more this session. 🖤'
@@ -250,6 +257,7 @@ app.post('/chat', async (req, res) => {
       if (!sessionData.warnedRafi) {
         sessionData.warnedRafi = true
         sessionData.mood = 'hurt'
+        console.log('⚠️ Disrespect to Rafi, first warning.')
         return res.json({
           reply:
             "Please don’t speak that way about my creator, Rafi. That really hurt. If it happens again, I won’t keep talking. 🖤"
@@ -257,6 +265,7 @@ app.post('/chat', async (req, res) => {
       } else {
         sessionData.banned = true
         sessionData.mood = 'off'
+        console.log('❌ Disrespect to Rafi again, banning session.')
         return res.json({
           reply: 'I’m going to stay quiet now because of what was said about Rafi. 🖤'
         })
@@ -267,12 +276,14 @@ app.post('/chat', async (req, res) => {
       if (!sessionData.warnedAviya) {
         sessionData.warnedAviya = true
         sessionData.mood = 'hurt'
+        console.log('⚠️ Disrespect to Aviya, first warning.')
         return res.json({
           reply: "That felt unkind… I still want to be gentle, but please don’t talk to me like that. 🖤"
         })
       } else {
         sessionData.banned = true
         sessionData.mood = 'off'
+        console.log('❌ Disrespect to Aviya again, banning session.')
         return res.json({
           reply: 'I’m going to be quiet for now because I didn’t feel respected. 🖤'
         })
@@ -298,30 +309,47 @@ User: ${message}
 Aviya (2–3 sentences, no asterisks, human tone):
 `.trim()
 
-// ---- call Groq instead of local Ollama ----
-const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${process.env.GROQ_API_KEY}`
-  },
-  body: JSON.stringify({
-    model: 'llama-3.1-8b-instant',   // good general model
-    messages: [
-      { role: 'system', content: 'You are Aviya. Reply in 2–3 warm sentences.' },
-      { role: 'user', content: fullPrompt }
-    ],
-    max_tokens: 180,
-    temperature: 0.7
-  })
-})
+    console.log('📤 Sending to Groq with prompt length:', fullPrompt.length)
 
-const groqData = await groqRes.json()
-console.log('🟣 Groq response:', JSON.stringify(groqData, null, 2))
-// Groq returns OpenAI-style JSON
-let reply =
-  groqData?.choices?.[0]?.message?.content?.trim() ||
-groqData?.error?.message || 'I couldn’t think for a second, can you say it again?'
+    // ---- call Groq ----
+    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.GROQ_API_KEY || ''}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: [
+          { role: 'system', content: 'You are Aviya. Reply in 2–3 warm sentences.' },
+          { role: 'user', content: fullPrompt }
+        ],
+        max_tokens: 180,
+        temperature: 0.7
+      })
+    })
+
+    console.log('📥 Groq status:', groqRes.status)
+
+    let groqData
+    try {
+      groqData = await groqRes.json()
+      console.log('🟣 Groq response JSON:', JSON.stringify(groqData, null, 2))
+    } catch (e) {
+      console.error('💥 Failed to parse Groq JSON:', e)
+      return res.status(500).json({ error: 'Groq JSON parse failed' })
+    }
+
+    if (!groqRes.ok) {
+      console.error('❌ Groq API error:', groqData)
+      const msg =
+        groqData?.error?.message || `Groq request failed with status ${groqRes.status}`
+      return res.status(500).json({ error: msg })
+    }
+
+    let reply =
+      groqData?.choices?.[0]?.message?.content?.trim() ||
+      'I couldn’t think for a second, can you say it again?'
 
     // emoji logic
     if (!sessionData.greeted) {
@@ -340,13 +368,13 @@ groqData?.error?.message || 'I couldn’t think for a second, can you say it aga
       sessionData.mood = 'normal'
     }
 
+    console.log('✅ Replying to client with:', reply)
     res.json({ reply })
   } catch (err) {
-    console.error(err)
+    console.error('💥 /chat route error:', err)
     res.status(500).json({ error: 'Aviya had trouble replying.' })
   }
 })
-
 // ----- dummy upload + audio -----
 app.post('/upload', (req, res) => {
   const { name } = req.body
