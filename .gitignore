@@ -3,3 +3,11 @@
 .env
 .env.*
 node_modules/
+# mac + local junk
+.DS_Store
+
+# backups
+aviya-old/
+
+# env (never commit keys)
+.env.local
