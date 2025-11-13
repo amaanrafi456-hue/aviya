@@ -874,3 +874,70 @@ body.compact-layout #chatTitle {
   background: rgba(148,163,184,0.1);
   color: #fff;
 }
+/* ------------- MOBILE LAYOUT ------------- */
+@media (max-width: 900px) {
+  .app-shell {
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 10px 12px;
+  }
+
+  .sidebar-top {
+    gap: 10px;
+  }
+
+  .main {
+    width: 100%;
+    height: calc(100vh - 140px); /* sidebar + input bar */
+  }
+
+  .topbar {
+    padding: 10px 12px;
+  }
+
+  .topbar h1 {
+    font-size: 1.1rem;
+  }
+
+  .topbar p {
+    font-size: 0.8rem;
+  }
+
+  .chat {
+    padding: 10px 12px;
+  }
+
+  .input-bar {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .mini-icons {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .mini-icon .label {
+    display: none;  /* keep just the icons on mobile */
+  }
+
+  .input-wrap input {
+    font-size: 0.9rem;
+  }
+
+  .right-buttons {
+    gap: 6px;
+  }
+
+  .circle-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
