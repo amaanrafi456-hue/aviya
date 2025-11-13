@@ -18,14 +18,12 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 
-// ---------- MIDDLEWARE ----------
-app.use(express.json({ limit: '10mb' }))
-// serve everything from the folder where index.js is
-app.use(express.static(__dirname))
+// serve everything from the public folder
+app.use(express.static(path.join(__dirname, 'public')))
 
-// serve index.html from the same folder
+// serve public/index.html at the root
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'))
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
 })
 
 // sessions for auth
