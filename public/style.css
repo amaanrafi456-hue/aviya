@@ -1138,26 +1138,26 @@ body.compact-layout #chatTitle {
 .center-reveal .V {
   transform: translateX(12px); /* starts to the right, moves left */
   animation: crSide 6s ease-out forwards;
-  animation-delay: 1.6s;
+  animation-delay: 1.0s;
 }
 
 .center-reveal .Y {
   transform: translateX(-12px); /* starts to the left, moves right */
   animation: crSide 6s ease-out forwards;
-  animation-delay: 1.6s;
+  animation-delay: 1.0s;
 }
 
 /* Λs together, also revealing toward center */
 .center-reveal .L1 {
   transform: translateX(14px); /* left Λ starts right, moves left */
   animation: crSide 6s ease-out forwards;
-  animation-delay: 3.2s;
+  animation-delay: 2.0s;
 }
 
 .center-reveal .L2 {
   transform: translateX(-14px); /* right Λ starts left, moves right */
   animation: crSide 6s ease-out forwards;
-  animation-delay: 3.2s;
+  animation-delay: 2.0s;
 }
 
 @keyframes crCenter {
