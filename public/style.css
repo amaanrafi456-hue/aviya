@@ -1109,65 +1109,59 @@ body.compact-layout #chatTitle {
     height: 220px;
   }
 }
-.split-word {
-  display: inline-flex;
-  gap: 0.06em;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  color: #e5f0ff;
-}
-
-.split-word .s {
-  display: inline-block;
-}
-
-.split-word .split {
+.wordmark-split {
   position: relative;
-  width: 1ch;
-  height: 1em;
+  display: inline-block;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e5f0ff;
+  line-height: 1;
 }
 
-/* hide the original I character so we can draw it in halves */
-.split-word .split {
-  color: transparent;
+/* Hide the normal text, we only use it for sizing */
+.wordmark-split .wm-full {
+  opacity: 0;
 }
 
-/* top and bottom halves */
-.split-word .split::before,
-.split-word .split::after {
-  content: "I";
+/* Two overlay halves */
+.wordmark-split .wm-half {
   position: absolute;
   left: 0;
   top: 0;
   color: #e5f0ff;
   will-change: transform;
+  transform: translateY(0);
 }
 
-/* top half */
-.split-word .split::before {
+/* Clip into top and bottom halves */
+.wordmark-split .wm-top {
   clip-path: inset(0 0 50% 0);
-  animation: splitUp 6s ease-in-out forwards;
+  animation: wmSplitUp 6s ease-in-out forwards;
 }
 
-/* bottom half */
-.split-word .split::after {
+.wordmark-split .wm-bottom {
   clip-path: inset(50% 0 0 0);
-  animation: splitDown 6s ease-in-out forwards;
+  animation: wmSplitDown 6s ease-in-out forwards;
 }
 
-@keyframes splitUp {
+/* Amount of split. Tweak these numbers if you want more or less */
+@keyframes wmSplitUp {
   0% { transform: translateY(0); }
   100% { transform: translateY(-18px); }
 }
 
-@keyframes splitDown {
+@keyframes wmSplitDown {
   0% { transform: translateY(0); }
   100% { transform: translateY(18px); }
 }
 
+/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .split-word .split::before,
-  .split-word .split::after {
+  .wordmark-split .wm-top,
+  .wordmark-split .wm-bottom {
     animation: none;
+    transform: none;
   }
 }
