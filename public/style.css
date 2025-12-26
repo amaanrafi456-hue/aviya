@@ -1185,8 +1185,3 @@ body.compact-layout #chatTitle {
   55% { opacity: 1; transform: translate(-50%, -45%) scale(1.05) rotateX(0deg); }
   100% { opacity: 1; transform: translate(-50%, -45%) scale(1) rotateX(0deg); }
 }
-body.wm-played .aviya-wordmark .wm {
-  opacity: 1;
-  transform: none;
-  animation: none;
-}
