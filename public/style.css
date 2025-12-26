@@ -930,7 +930,7 @@ body.compact-layout #chatTitle {
   color: #e5e7eb;
   display: flex;
   flex-direction: column;
-  padding: 18px 40px 32px;
+  padding: 12px 20px 24px;
 }
 
 /* top nav */
@@ -940,7 +940,7 @@ body.compact-layout #chatTitle {
   justify-content: space-between;
   max-width: 1120px;
   width: 100%;
-  margin: 0 auto 32px;
+  margin: 0 auto 14px;
 }
 .landing-logo-wrap {
   display: flex;
