@@ -1109,41 +1109,81 @@ body.compact-layout #chatTitle {
     height: 220px;
   }
 }
-.wordmark-split {
-  position: relative;
-  display: inline-block;
+.center-reveal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.06em;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e5f0ff;
   line-height: 1;
 }
 
-.wordmark-split .wm-full {
-  visibility: hidden;
+.center-reveal .cr {
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateY(6px) scale(0.98);
+  will-change: opacity, transform, filter;
 }
 
-.wordmark-split .wm-half {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: block;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
+/* Total 6s feel, with staged delays */
+.center-reveal .I {
+  animation: crIn 6s ease-out forwards;
+  animation-delay: 0s;
 }
 
-.wordmark-split .wm-top {
-  clip-path: inset(0 0 50% 0);
-  animation: wmSplitUp 6s linear forwards;
+.center-reveal .V {
+  animation: crIn 6s ease-out forwards;
+  animation-delay: 1.1s;
 }
 
-.wordmark-split .wm-bottom {
-  clip-path: inset(50% 0 0 0);
-  animation: wmSplitDown 6s linear forwards;
+.center-reveal .Y {
+  animation: crIn 6s ease-out forwards;
+  animation-delay: 1.35s;
 }
 
-@keyframes wmSplitUp {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, -22px, 0); }
+.center-reveal .L {
+  animation: crIn 6s ease-out forwards;
+  animation-delay: 2.35s;
 }
 
-@keyframes wmSplitDown {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(0, 22px, 0); }
+.center-reveal .R {
+  animation: crIn 6s ease-out forwards;
+  animation-delay: 2.6s;
+}
+
+/* Position them so it builds from the center */
+.center-reveal .L { order: -2; }
+.center-reveal .V { order: -1; }
+.center-reveal .I { order: 0; }
+.center-reveal .Y { order: 1; }
+.center-reveal .R { order: 2; }
+
+@keyframes crIn {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(6px) scale(0.98);
+  }
+  10% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .center-reveal .cr {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
 }
