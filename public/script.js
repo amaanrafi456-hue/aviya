@@ -12,6 +12,13 @@ const browseBtn = document.getElementById('browseBtn')
 const researchBtn = document.getElementById('researchBtn')
 const authOverlay = document.getElementById('authOverlay')
 const authClose = document.getElementById('authClose')
+const openAuth = document.getElementById('openAuth')
+
+if (openAuth && authOverlay) {
+  openAuth.addEventListener('click', () => {
+    authOverlay.classList.remove('hidden')
+  })
+}
 const authGoogle = document.getElementById('authGoogle')
 const authMicrosoft = document.getElementById('authMicrosoft')
 
