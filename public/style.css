@@ -856,11 +856,12 @@ body.compact-layout #chatTitle {
 .landing-hero {
   min-height: 100vh;
   width: 100%;
-  background: radial-gradient(circle at top, rgba(2, 6, 23, 1) 0, rgba(2, 6, 23, 1) 35%, rgba(1, 4, 14, 1) 100%);
+  background: radial-gradient(circle at top, #020617 0, #020617 100%);
   color: #e5e7eb;
   display: flex;
-  flex-direction: column;
-  padding: 18px 24px 28px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 /* top nav */
@@ -897,13 +898,17 @@ body.compact-layout #chatTitle {
 .center-reveal {
   display: inline-flex;
   align-items: center;
-  gap: 0.06em;
-  font-size: 22px;
-  font-weight: 650;
-  letter-spacing: 0.16em;
+  gap: 0.08em;
+
+  font-size: clamp(48px, 10vw, 110px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+
   text-transform: uppercase;
-  color: #f1f5ff;
+  color: #f8fafc;
   line-height: 1;
+
+  margin-bottom: 20px;
 }
 
 /* make sign in look important */
