@@ -6,6 +6,7 @@ const fileInput = document.getElementById('fileInput')
 const convoList = document.getElementById('convoList')
 const newChatBtn = document.getElementById('newChatBtn')
 const chatTitle = document.getElementById('chatTitle')
+const learnMoreBtn = document.getElementById('learnMoreBtn')
 const authOrUser = document.getElementById('authOrUser')
 
 const browseBtn = document.getElementById('browseBtn')
@@ -283,6 +284,13 @@ function openAuthModal(titleText, subText) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+  if (learnMoreBtn) {
+  learnMoreBtn.addEventListener('click', () => {
+    const el = document.getElementById('landingHero')
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  })
+}
   if (conversations.length === 0) {
     createNewConvo()
   } else {
