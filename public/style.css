@@ -866,8 +866,13 @@
 }
 
   /* top nav */
-  .landing-nav {
-  display: none;
+.landing-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
   .landing-logo-wrap {
